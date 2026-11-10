@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: icc-meses-nuevos
+expected_outcome: |
+  icc_nuevos.json tiene solo septiembre 2026 (el último publicado al 10/11/2026), con el índice nivel general 30296.85 (variación 1,2%),
+  escrito como 1/9/2026 y tomado de la fuente oficial de Córdoba.

@@ -64,7 +64,7 @@ Cargados al crearla: Albañil Alessandrini → ALESSANDRINI RUBEN / ALBAÑILERÍ
 
 ## Carpeta de recibos
 
-"Pagos Semanales" (`1J3f5axqB7aUy160cwNzpVklmez3modTC`). Un PDF por mano de obra y por semana: `PAGO VIERNES 06.11.2026 (1.400.000) ALBAÑIL - Duplex Scorza.pdf`. Hoja A4 con dos copias del recibo: banner "RECIBO" + logo de la empresa (imagen de 567×89 pt), "FECHA: ____ DE 2026" en blanco, PROYECTO, UBICACIÓN, APELLIDO Y NOMBRE, CONCEPTO, "Recibí conforme la suma de pesos: <EN LETRAS> PESOS. Son: $ <monto>." y línea de "Firma y Aclaración". Texto en rojo puro, Montserrat 10 (etiquetas en negrita). Recibo de referencia: `1vyFBs0BliipPhacoy-su3XnjZGPE78aK`.
+"Pagos Semanales" (`1J3f5axqB7aUy160cwNzpVklmez3modTC`). Un PDF por mano de obra y por semana: `PAGO VIERNES 06.11.2026 (1.400.000) ALBAÑIL - Duplex Scorza.pdf`. Hoja A4 con dos copias del recibo: banner "RECIBO" + logo de la empresa (imagen de 567×89 pt), "FECHA: 6 DE NOVIEMBRE DE 2026" (fecha de pago; los recibos viejos la tenían en blanco), PROYECTO, UBICACIÓN, APELLIDO Y NOMBRE, CONCEPTO, "Recibí conforme la suma de pesos: <EN LETRAS> PESOS. Son: $ <monto>." y línea de "Firma y Aclaración". Texto en rojo puro, Montserrat 10 (etiquetas en negrita). Recibo de referencia: `1vyFBs0BliipPhacoy-su3XnjZGPE78aK`.
 
 El 06/11/2026 hay un recibo del electricista por $180.000 que no está cargado en Datos Pagos.
 

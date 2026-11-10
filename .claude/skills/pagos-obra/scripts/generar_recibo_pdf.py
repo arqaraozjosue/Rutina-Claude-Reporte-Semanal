@@ -16,8 +16,7 @@ recibo.json:
      "fecha_pago": "13/11/2026",                                # viernes de pago
      "monto": 1400000}
 
-La fecha del recibo queda en blanco (FECHA: ____ DE <año>) para completarla a mano
-al firmar, como en los recibos originales.
+La fecha del recibo es la fecha de pago, escrita como "FECHA: 13 DE NOVIEMBRE DE 2026".
 
 Imprime el nombre de archivo según la convención de la carpeta:
     PAGO VIERNES 13.11.2026 (1.400.000) ALBAÑIL - Duplex Scorza.pdf
@@ -25,6 +24,7 @@ Imprime el nombre de archivo según la convención de la carpeta:
 import argparse
 import json
 import os
+import sys
 import tempfile
 import urllib.request
 
@@ -84,20 +84,37 @@ def en_letras(n):
     return " ".join(partes)
 
 
+MESES = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE",
+         "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"]
+
+
+def fecha_larga(fecha):
+    """'06/11/2026' -> '6 DE NOVIEMBRE DE 2026'."""
+    dd, mm, aa = fecha.split("/")
+    return f"{int(dd)} DE {MESES[int(mm) - 1]} DE {aa}"
+
+
 def miles(n):
     return f"{int(round(n)):,}".replace(",", ".")
 
 
 def cargar_fuentes():
-    try:
-        d = tempfile.mkdtemp()
-        for name, url in FONT_URLS.items():
-            p = os.path.join(d, name + ".ttf")
-            urllib.request.urlretrieve(url, p)
-            pdfmetrics.registerFont(TTFont(name, p))
-        return "Montserrat", "Montserrat-Bold"
-    except Exception:
-        return "Helvetica", "Helvetica-Bold"
+    """Registra Montserrat (regular y negrita). Usa las fuentes de la skill si están;
+    si no, las baja de Google Fonts. Sin Montserrat no genera el PDF."""
+    base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "fonts")
+    nombres = {"Montserrat": "Montserrat-Regular.ttf", "Montserrat-Bold": "Montserrat-Bold.ttf"}
+    tmp = None
+    for name, archivo in nombres.items():
+        p = os.path.join(base, archivo)
+        if not os.path.exists(p):
+            tmp = tmp or tempfile.mkdtemp()
+            p = os.path.join(tmp, archivo)
+            try:
+                urllib.request.urlretrieve(FONT_URLS[name], p)
+            except Exception as e:
+                sys.exit(f"No se pudo obtener la fuente Montserrat ({e}). No se genera el PDF.")
+        pdfmetrics.registerFont(TTFont(name, p))
+    return "Montserrat", "Montserrat-Bold"
 
 
 def copia(c, top, d, reg, bold, encabezado):
@@ -106,9 +123,8 @@ def copia(c, top, d, reg, bold, encabezado):
     y = lambda t: H - t
     c.drawImage(encabezado, 14, y(top + 89), width=567, height=89)
     c.setFillColor(ROJO)
-    anio = d["fecha_pago"].split("/")[2]
     c.setFont(reg, 10)
-    c.drawRightString(559, y(top + 130), f"FECHA: {'_' * 38} DE {anio}")
+    c.drawRightString(559, y(top + 130), f"FECHA: {fecha_larga(d['fecha_pago'])}")
 
     def campo(t, etiqueta, valor):
         c.setFont(bold, 10)

@@ -21,6 +21,8 @@ Cada obra tiene una planilla de Google Sheets y una carpeta de Drive para los PD
 
 En una obra nueva, leé los nombres de pestañas y la fila de encabezados (`get_spreadsheet` con `fields: ["sheets.properties"]` y `get_values` de las primeras filas) y mapeá las columnas antes de escribir. Si la estructura difiere mucho, decíselo al usuario en lugar de forzarla.
 
+Todo lo que se genera va en fuente **Montserrat**, igual que la planilla y los recibos originales: los PDF la toman de `assets/fonts/` (o la bajan de Google Fonts) y, si no la consiguen, no generan el archivo. Las pestañas nuevas de la planilla también van en Montserrat.
+
 La planilla está en locale es_ES: las fórmulas llevan `;` como separador y los nombres de función en inglés.
 
 ## 2. Cargar pagos dictados o informales
@@ -52,7 +54,7 @@ Los nombres viejos de la carpeta tienen errores de año ("30-10-29"). No los cor
 
 ## 3b. Recibos para firmar
 
-Por cada semana, cada mano de obra firma un recibo: una hoja A4 con dos copias iguales, el encabezado "RECIBO" de la empresa, proyecto, ubicación, apellido y nombre, concepto y el monto en letras y en números. La fecha queda en blanco para completarla a mano al firmar.
+Por cada semana, cada mano de obra firma un recibo: una hoja A4 con dos copias iguales, el encabezado "RECIBO" de la empresa, proyecto, ubicación, apellido y nombre, concepto y el monto en letras y en números. La fecha del recibo es la fecha de pago ("FECHA: 13 DE NOVIEMBRE DE 2026").
 
 1. Leé `'Recibos M.O.'!A3:E40`: B3 proyecto, B4 ubicación, B5 obra (para el nombre del archivo), B6 carpeta de recibos; desde la fila 9, por cada M.O. (escrito igual que en Datos Pagos): apellido y nombre, concepto, rubro para el nombre del archivo y si hace recibo.
 2. Agrupá los pagos de la semana por M.O. y sumá. Hacé recibo solo para los que tienen apellido y nombre y "Hace recibo" = Sí. Si alguien cobró y no tiene datos, no inventes el nombre: avisá para que lo completen en esa pestaña.

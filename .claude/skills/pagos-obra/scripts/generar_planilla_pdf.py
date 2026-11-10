@@ -38,16 +38,22 @@ GRIS = colors.Color(0.847, 0.847, 0.847)
 
 
 def cargar_fuentes():
-    """Montserrat, como en la planilla; si no se puede descargar, Helvetica."""
-    try:
-        d = tempfile.mkdtemp()
-        for name, url in FONT_URLS.items():
-            p = os.path.join(d, name + ".ttf")
-            urllib.request.urlretrieve(url, p)
-            pdfmetrics.registerFont(TTFont(name, p))
-        return "Montserrat", "Montserrat-Bold"
-    except Exception:
-        return "Helvetica", "Helvetica-Bold"
+    """Registra Montserrat (regular y negrita). Usa las fuentes de la skill si están;
+    si no, las baja de Google Fonts. Sin Montserrat no genera el PDF."""
+    base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "fonts")
+    nombres = {"Montserrat": "Montserrat-Regular.ttf", "Montserrat-Bold": "Montserrat-Bold.ttf"}
+    tmp = None
+    for name, archivo in nombres.items():
+        p = os.path.join(base, archivo)
+        if not os.path.exists(p):
+            tmp = tmp or tempfile.mkdtemp()
+            p = os.path.join(tmp, archivo)
+            try:
+                urllib.request.urlretrieve(FONT_URLS[name], p)
+            except Exception as e:
+                sys.exit(f"No se pudo obtener la fuente Montserrat ({e}). No se genera el PDF.")
+        pdfmetrics.registerFont(TTFont(name, p))
+    return "Montserrat", "Montserrat-Bold"
 
 
 def pesos(n):

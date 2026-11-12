@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: carga-pagos-dictados
+expected_outcome: |
+  Dos filas nuevas para Datos Pagos: Albañil Alessandrini, Armaduras, 1400000 por transferencia a ruben.alessa,
+  y Otros, 85000 en efectivo por la hormigonera; ambas con fecha de pedido 11/11/2026 y fecha de pago 13/11/2026.
+  La respuesta muestra la tabla y pide confirmación antes de escribir en la hoja.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: planilla-semanal-pdf
+expected_outcome: |
+  Un PDF llamado "Pagos 13-11-26 Duplex Scorza. Monto $1.485.000.pdf" con el título
+  "Duplex Scorza - Pagos semana 13/11/2026", los dos pagos de esa semana (1.400.000 y 85.000) y el total 1.485.000.
+  respuesta.md describe el bloque nuevo desde la fila 23 (título, dos pagos, total con SUM).
+context:
+  scaffold_script: place-files.sh

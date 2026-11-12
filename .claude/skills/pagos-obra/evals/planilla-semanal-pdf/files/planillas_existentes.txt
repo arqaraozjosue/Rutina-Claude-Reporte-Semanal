@@ -1,0 +1,13 @@
+Contenido actual de la pestaña "Pagos Duplex Scorza" (A:E), bloques ya creados:
+Duplex Scorza - Pagos semana 09/10/26  (total 880.000)
+Duplex Scorza - Pagos semana 16/10/26  (total 1.400.000)
+Duplex Scorza - Pagos semana 23/10/26  (total 1.400.000)
+Duplex Scorza - Pagos semana 30/10/2026 (total 1.420.000)
+Duplex Scorza - Pagos semana 06/11/2026 (total 1.400.000), filas 19 a 21; fila 22 vacía.
+
+Archivos en la carpeta de PDFs:
+Pagos 06-11-26 Duplex Scorza. Monto $1.400.000.pdf
+Pagos 30-10-29 Duplex Scorza. Monto $1.420.000.pdf
+Pagos 23-10-29 Duplex Scorza. Monto $1.400.000.pdf
+Pagos 16-10-29 Duplex Scorza. Monto $1.400.000.pdf
+Pagos 09-10-29 Duplex Scorza. Monto $400.000.pdf

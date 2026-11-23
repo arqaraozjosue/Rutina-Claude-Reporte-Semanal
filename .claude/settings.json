@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Notion",
+      "mcp__Google_Sheets",
+      "mcp__Google_Drive",
+      "mcp__Google_Docs",
+      "mcp__Google_Calendar",
+      "Bash",
+      "Edit",
+      "Write",
+      "Read",
+      "Glob",
+      "Grep"
+    ]
+  }
+}

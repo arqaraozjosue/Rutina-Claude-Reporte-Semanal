@@ -136,7 +136,7 @@ Páginas de obra (estado En obra; inicio):
 - Datos cargados (23/11/2026): **315 egresos, uno por cada pago** de la pestaña `Pagos`, del 30/05/2025 al 20/11/2026. Total $203.500.312.
   - Concepto = `"<M.O.> · <Tarea>"`; si la tarea es "Otros" o está vacía, se usa la primera línea de Observaciones.
   - Notas = Observaciones + "Forma de pago: …". Medio de pago se deduce de la forma de pago.
-  - Categoría: contratistas → Mano de obra; Baño Químico y Obrador → Servicios; Prodesarrollo → Materiales; Otros → Otros.
+  - Categoría: contratistas → Mano de obra; Baño Químico y Obrador → Servicios; Prodesarrollo → Materiales. Los "Otros" se reparten por palabras clave (`categoria_otros` en el script): permisos, amojonamiento, planos y cálculo de estructura → Trámites; volquetes, fletes, obrador, limpieza/picado → Servicios; tierra, ladrillos, chapa, canaletas, placas, cables, nafta, pintura asfáltica → Materiales.
   - Los 38 acumulados al 19/11 que había antes se mandaron a la papelera de Notion (se pueden restaurar).
 - Sincronización semanal: leer `Pagos!A2:K` y pasarlo por `scripts/pagos_a_notion.py` junto con los "ID planilla" ya cargados. El script devuelve solo las filas nuevas, listas para crear en Finanzas.
 
@@ -149,7 +149,7 @@ Páginas de obra (estado En obra; inicio):
 - Vista: Calendario de visitas.
 
 ## Pendientes y próximos pasos sugeridos para Code
-1. ~~Sincronizar Sheets → Notion~~ Hecho el 23/11/2026 (ver Finanzas). Pendiente: diferencias en la planilla. `Saldos M.O.` no suma 1 fila "Alessandrini" sin "Albañil" ($1.300.000, Pilla#6), filas "Baño Quimico" sin tilde, 1 fila sin M.O. (Pilla#58, $50.000) ni algunos pagos del 20/11. Por eso Notion da $1.740.000 más que `Saldos M.O.`
+1. ~~Sincronizar Sheets → Notion~~ Hecho el 23/11/2026 (ver Finanzas). Ese mismo día se unificaron los nombres en las planillas de obra ("Albañil Alessandrini", "Baño Químico", "Nivelación - Trucco", también en Presupuestos M.O. y Recibos M.O.), se separaron las celdas combinadas de Pilla fila 58 y se corrigió la ortografía de Datos Pagos, la planilla central y Notion. `Saldos M.O.` y Notion suman lo mismo: $203.500.312.
 2. **Portadas / renders.** Subir imágenes a la propiedad "Portada" de cada obra con la API de File Upload de Notion. En Drive hay renders, por ejemplo "Garaje para Render *" (posiblemente Garaje Martino) y varios "rendair-image-to-render-*". Confirmar con el usuario a qué obra corresponde cada uno.
 3. **Presupuestos y cobros de clientes.** No están en la planilla. Pedirlos al usuario y cargar Presupuesto en cada obra y los cobros como Ingreso.
 4. **Gráficos.** "Balance mensual" y el gráfico del panel quedaron agrupados por día. Cambiar a mes, o pedirle al usuario que lo haga desde la interfaz.

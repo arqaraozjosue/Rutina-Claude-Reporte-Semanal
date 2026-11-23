@@ -12,6 +12,7 @@ Uso:
 """
 import datetime as dt
 import json
+import re
 import sys
 
 OBRA = {
@@ -47,6 +48,18 @@ def money(s):
     return float(s) if s else 0.0
 
 
+def categoria_otros(texto):
+    """Reparte los pagos de M.O. "Otros" en Trámites, Servicios o Materiales según el texto."""
+    t = texto.lower()
+    if re.search(r'permiso|amojonamiento|plano |cálculo de ingenier', t):
+        return 'Trámites'
+    if re.search(r'volquete|flete|obrador|limpieza de terreno|picado|tumbado|reubicación de tierra', t):
+        return 'Servicios'
+    if re.search(r'tierra|ladrillo|chapa|canaleta|placa|plegado|pegamento|caja estanca|cable|silobolsa|nafta|pintura asfáltica', t):
+        return 'Materiales'
+    return 'Otros'
+
+
 def convertir(fila):
     r = [x.strip() for x in fila + [''] * (11 - len(fila))]
     obra, _, fecha_pago, semana, _, mo, tarea, obs, forma, monto, nro = r[:11]
@@ -74,6 +87,8 @@ def convertir(fila):
     elif 'cheq' in fl:
         p['Medio de pago'] = 'Cheque'
     notas = obs + (('\n' if obs else '') + 'Forma de pago: ' + forma if forma else '')
+    if cat == 'Otros':
+        p['Categoría'] = categoria_otros(p['Concepto'] + ' ' + notas)
     if notas:
         p['Notas'] = notas
     return p

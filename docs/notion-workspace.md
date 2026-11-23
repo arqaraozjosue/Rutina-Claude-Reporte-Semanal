@@ -132,10 +132,13 @@ Páginas de obra (estado En obra; inicio):
   - Egreso $ = `if(prop("Tipo") == "Egreso", prop("Monto"), 0)`
 - Vistas: Pendientes de pago, Por categoría, Compras (tablero: Categoría = Materiales, agrupado por Pagado), Balance mensual (gráfico).
 - Las compras se registran acá con Categoría = Materiales, para que sumen al Gastado sin duplicar datos.
-- Datos cargados: 38 egresos con el **acumulado pagado al 19/11/2026** por obra y contratista o rubro, sacados de `Saldos M.O.` (total $201.760.312).
-  - Concepto con formato `"<rubro/contratista> · acumulado al 19/11/2026"`.
-  - Las notas incluyen el presupuesto de M.O. y el saldo ajustado por ICC.
-  - Se omitieron los ítems con $0 pagado.
+- Propiedad **ID planilla** (texto) = `"<Obra>#<Fila en Datos Pagos>"`, con el nombre de obra tal cual figura en la planilla (ej. `Galpon Yanussi#14`). Es la clave para no duplicar.
+- Datos cargados (23/11/2026): **315 egresos, uno por cada pago** de la pestaña `Pagos`, del 30/05/2025 al 20/11/2026. Total $203.500.312.
+  - Concepto = `"<M.O.> · <Tarea>"`; si la tarea es "Otros" o está vacía, se usa la primera línea de Observaciones.
+  - Notas = Observaciones + "Forma de pago: …". Medio de pago se deduce de la forma de pago.
+  - Categoría: contratistas → Mano de obra; Baño Químico y Obrador → Servicios; Prodesarrollo → Materiales; Otros → Otros.
+  - Los 38 acumulados al 19/11 que había antes se mandaron a la papelera de Notion (se pueden restaurar).
+- Sincronización semanal: leer `Pagos!A2:K` y pasarlo por `scripts/pagos_a_notion.py` junto con los "ID planilla" ya cargados. El script devuelve solo las filas nuevas, listas para crear en Finanzas.
 
 ### Visitas de Obra
 - DB `421e562196e18177a670cfd76a6c299b` → DS `collection://421e5621-96e1-811b-8e6b-000baba6ac11`
@@ -146,7 +149,7 @@ Páginas de obra (estado En obra; inicio):
 - Vista: Calendario de visitas.
 
 ## Pendientes y próximos pasos sugeridos para Code
-1. **Sincronizar Sheets → Notion.** Script que lea los pagos nuevos de la planilla (pestaña `Pagos` o la planilla de cada obra) y cree movimientos en Finanzas, vinculados a la obra y al contratista. Evitar duplicados con un ID externo, por ejemplo una propiedad nueva "ID planilla", o comparando fecha + concepto + monto. Decidir si los 38 acumulados se reemplazan por los pagos individuales.
+1. ~~Sincronizar Sheets → Notion~~ Hecho el 23/11/2026 (ver Finanzas). Pendiente: diferencias en la planilla. `Saldos M.O.` no suma 1 fila "Alessandrini" sin "Albañil" ($1.300.000, Pilla#6), filas "Baño Quimico" sin tilde, 1 fila sin M.O. (Pilla#58, $50.000) ni algunos pagos del 20/11. Por eso Notion da $1.740.000 más que `Saldos M.O.`
 2. **Portadas / renders.** Subir imágenes a la propiedad "Portada" de cada obra con la API de File Upload de Notion. En Drive hay renders, por ejemplo "Garaje para Render *" (posiblemente Garaje Martino) y varios "rendair-image-to-render-*". Confirmar con el usuario a qué obra corresponde cada uno.
 3. **Presupuestos y cobros de clientes.** No están en la planilla. Pedirlos al usuario y cargar Presupuesto en cada obra y los cobros como Ingreso.
 4. **Gráficos.** "Balance mensual" y el gráfico del panel quedaron agrupados por día. Cambiar a mes, o pedirle al usuario que lo haga desde la interfaz.

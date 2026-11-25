@@ -1,7 +1,7 @@
 # Estructura de la planilla de pagos de obra
 
-Modelo: "Pagos Manos de Obra - Duplex Scorza" (Google Sheets, locale es_ES).
-Otra obra puede tener otro nombre de pestaña o columnas corridas: leé los encabezados antes de escribir y adaptá.
+Modelo: "Pagos Manos de Obra - Duplex Scorza" (Google Sheets, locale es_ES). Desde el 19/11/2026 las 7 obras
+tienen el mismo formato estándar (ver "Obras y particularidades" al final). Igual leé los encabezados antes de escribir.
 
 ## Contenido
 
@@ -21,7 +21,7 @@ Filas 1 y 2: nombre de la obra y fecha de inicio ("Inicio Lunes 5/10/26"). Fila 
 | Col | Encabezado | Contenido |
 |---|---|---|
 | A | Fecha pedido | fecha (número de serie, se ve D/M/AAAA) |
-| B | (sin título) | fórmula `=TEXT(A4; "mmmm-yyy")` → "octubre-2026". Copiarla en filas nuevas. |
+| B | Mes (en Duplex sin título) | fórmula `=IF(ISNUMBER(A4);TEXT(A4;"mmmm-yyy");"")` → "octubre-2026" (en Duplex y Pilla `=TEXT(A4; "mmmm-yyy")`). Copiarla en filas nuevas. En Cervelli, Garaje, Oficinas, Yanussi y Fraresso esta columna se insertó al convertir; los Excel originales no la tienen. |
 | C | M.O. | contratista; tiene que coincidir con el nombre en Presupuestos M.O. |
 | D | Tarea | rubro (Replanteo y nivelación, Armaduras, Otros...) |
 | E | Observaciones | descripción de la tarea |
@@ -58,7 +58,7 @@ Fila 2: encabezados (B "M.O", C "Presupuesto", D "Pagado", E "Saldo restante"). 
 
 ## Recibos M.O.
 
-Datos para los recibos (la completa el usuario; celdas amarillas). B3 proyecto ("D.G.D DESARROLLO / DUPLEX – SCORZA ANDRES"), B4 ubicación ("LOTEO SAN SEVERINO"), B5 obra para el nombre de archivo ("Duplex Scorza"), B6 id de la carpeta de recibos. Fila 8: encabezados. Desde la fila 9: A M.O. (igual que en Datos Pagos), B apellido y nombre, C concepto, D rubro para el nombre de archivo, E hace recibo (Sí/No).
+Datos para los recibos (la completa el usuario; celdas amarillas). B3 proyecto ("D.G.D DESARROLLO / DUPLEX – SCORZA ANDRES"), B4 ubicación ("LOTEO SAN SEVERINO"; vacía en Pilla y Yanussi, cuyos recibos no la llevan), B5 obra para el nombre de archivo ("Duplex Scorza"), B6 id de la carpeta de recibos. Fila 8: encabezados. Desde la fila 9: A M.O. (igual que en Datos Pagos), B apellido y nombre, C concepto, D rubro para el nombre de archivo, E hace recibo (Sí/No), F lleva "Mes a pagar" (Sí para alquileres como el baño químico).
 
 Cargados al crearla: Albañil Alessandrini → ALESSANDRINI RUBEN / ALBAÑILERÍA / ALBAÑIL; Electricista → QUIROGA DAMIÁN / ELECTRICISTA / ELECTRICISTA; Otros → No. El resto de los contratistas quedó sin datos.
 
@@ -90,3 +90,18 @@ Fila 4: encabezados. Desde la fila 5: A mes (1/M/AAAA), B índice nivel general.
 - Las fechas escritas como texto "1/10/2026" se leen como día/mes/año.
 - `get_values` devuelve lo que se ve: montos como " $  1.400.000,00 ". Para los números crudos, leé la grilla con `userEnteredValue`.
 - La zona horaria de la planilla está en America/Los_Angeles; no importa para fechas sin hora.
+
+
+## Obras y particularidades
+
+| Obra | Pestaña planillas | Título de bloque | Notas |
+|---|---|---|---|
+| Duplex Scorza | Pagos Duplex Scorza | `Duplex Scorza - Pagos semana 20/11/2026` | Modelo original. Fila 5: fecha de pago 15/5/2026 (es 15/10). |
+| Quincho Cervelli | Pagos CERVELLI | `Quincho CERVELLI - Pagos semana 20/11/26` | Fila 4: pedido 28/05/2025 (es 2026). Steel Cejas cobra sin presupuesto cargado. |
+| Garaje Martino | Pagos Garaje MARTINO | `Garaje Martino - Pagos semana 20/11/26` | PDF: "Pagos Manos de Obra DD-MM-AA - Garaje Martino - $X.pdf". Alessandrini pasado del presupuesto (137%). |
+| Oficinas Martino | Pagos Oficinas Martino | `Oficinas Martino - Pagos semana 20/11/26` | PDF como Garaje. "Albañil Panelo" figura 3 veces en Presupuestos (solo la primera tiene monto). Fila 25: pedido 14/07/2002. Carpeta extra "Pagos Boletas". |
+| Galpon Yanussi | Pagos GALPON YANISSI | `Galpon YANUSSI - Pagos semana 20/11/26` | "Baño Químico" con tilde en Datos Pagos y sin tilde en Presupuestos. Panelo firma VILLEGAS HECTOR. |
+| Vivienda Pilla | Pagos PILLA | `Vivienda PILLA - Pagos semana 20/11/26` | Obra desde 2025. Muchas filas viejas sin fecha de pago. "Alessandrini" y "Albañil Alessandrini" conviven. Se borraron ~1 millón de filas vacías de Datos Pagos en la copia. |
+| Vivienda Fraresso-Gallo | Pagos FRARESSO-GALLO | `Vivienda Fraresso-Gallo - Pagos semana 20/11/26` | "Albañil Troilo" firma CASTRO ANIBAL. |
+
+Quién firma (Recibos M.O.): Alessandrini → ALESSANDRINI RUBEN; Panelo → VILLEGAS HECTOR; Troilo → CASTRO ANIBAL; Cejas → CEJAS FERNANDO (STEEL / DURLERO); Gonella → GONELLA GUSTAVO; Quiroga → QUIROGA DAMIÁN; Baño químico → MENA MARCELO (alias marcelo.239); Taborda → TABORDA FRANCO; Trucco → TRUCCO ANGEL. El alias tilo.alude.clon es del obrador (alquiler), que no hace recibo.

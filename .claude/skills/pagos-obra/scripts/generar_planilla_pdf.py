@@ -7,6 +7,7 @@ Uso:
 
 datos.json:
     {"obra": "Duplex Scorza",            # opcional, por defecto "Duplex Scorza"
+     "formato_nombre": "Pagos {dd}-{mm}-{aa} {obra}. Monto ${monto}.pdf",   # opcional
      "fecha": "13/11/2026",              # viernes de pago, DD/MM/AAAA
      "filas": [["Albañil Alessandrini", "Armaduras", "Corte de hierros...",
                 "Transferencia \\nruben.alessa", 1400000], ...]}
@@ -67,9 +68,15 @@ def pesos_entero(n):
     return f"{round(n):,}".replace(",", ".")
 
 
-def nombre_archivo(obra, fecha, total):
+FORMATO_NOMBRE = "Pagos {dd}-{mm}-{aa} {obra}. Monto ${monto}.pdf"
+
+
+def nombre_archivo(obra, fecha, total, formato=None):
+    """formato admite {dd} {mm} {aa} {aaaa} {obra} {monto}; cada obra puede tener el suyo
+    (campo formato_nombre_planilla del registro de obras)."""
     d, m, y = fecha.split("/")
-    return f"Pagos {int(d):02d}-{int(m):02d}-{y[-2:]} {obra}. Monto ${pesos_entero(total)}.pdf"
+    return (formato or FORMATO_NOMBRE).format(dd=f"{int(d):02d}", mm=f"{int(m):02d}", aa=y[-2:], aaaa=y,
+                                              obra=obra, monto=pesos_entero(total))
 
 
 def main(src, out):
@@ -123,7 +130,7 @@ def main(src, out):
 
     SimpleDocTemplate(out, pagesize=A4, leftMargin=26, rightMargin=26, topMargin=50,
                       bottomMargin=40, title=f"Pagos {fecha} {obra}").build([t])
-    print(nombre_archivo(obra, fecha, total))
+    print(nombre_archivo(obra, fecha, total, data.get("formato_nombre")))
 
 
 if __name__ == "__main__":

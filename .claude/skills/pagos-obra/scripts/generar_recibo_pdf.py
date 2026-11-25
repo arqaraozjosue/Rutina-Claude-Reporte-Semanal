@@ -10,6 +10,7 @@ recibo.json:
     {"obra": "Duplex Scorza",                                   # para el nombre del archivo
      "proyecto": "D.G.D DESARROLLO / DUPLEX – SCORZA ANDRES",
      "ubicacion": "LOTEO SAN SEVERINO",                         # opcional
+     "mes_a_pagar": "SEPTIEMBRE – OCTUBRE",                     # opcional (alquileres)
      "nombre": "ALESSANDRINI RUBEN",
      "concepto": "ALBAÑILERÍA",
      "rubro_archivo": "ALBAÑIL",                                # va en el nombre del archivo
@@ -144,6 +145,9 @@ def copia(c, top, d, reg, bold, encabezado):
     campo(t, "APELLIDO Y NOMBRE:", d["nombre"])
     t += 21
     campo(t, "CONCEPTO:", d["concepto"])
+    if d.get("mes_a_pagar"):
+        t += 21
+        campo(t, "MES A PAGAR:", d["mes_a_pagar"])
 
     # Texto del monto, cortado a lo ancho como en el original
     texto = f"Recibí conforme la suma de pesos: {en_letras(d['monto'])} PESOS. Son: $ {miles(d['monto'])}."

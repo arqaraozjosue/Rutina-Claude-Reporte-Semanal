@@ -81,9 +81,19 @@ Después de procesar las obras (o cuando pidan el control/tablero):
 3. En la central: `batch_clear_values` de `Pagos!A2:K`, `'Saldos M.O.'!A2:I` y `Alertas!A2:C`, y `update_values` con `pagos`, `saldos` y `alertas` del JSON (en tandas de ~150 filas). Actualizá `Resumen!A2` (`actualizado`), `Resumen!B3` (`semana`) y `Resumen!D3` (`mes`). Resumen y Obras son fórmulas: no las reescribas.
 4. Verificá `Resumen!A5:L15`: el "Pagado semana" de cada obra tiene que coincidir con el total de su planilla semanal.
 
+## 6b. PDF único de la semana (para el contador)
+
+Cada semana, además de las boletas individuales (que **se quedan** en la carpeta "Pagos <obra>" de cada obra), se arma un PDF que junta las boletas de todas las obras con pagos esa semana. El usuario se lo manda por WhatsApp al contador, Gustavo Martino ("Tato"), que prepara los pagos del viernes.
+
+1. Cuando estén las boletas de la semana de todas las obras en curso (paso 2), bajalas de cada carpeta "Pagos <obra>" (`download_file_content`) en el orden del registro de obras. Las obras sin pagos esa semana no van.
+2. Unilas en un solo PDF, una boleta por página (`pypdf`: `PdfWriter().append(...)`). Nombre: `Pagos semana DD-MM-AA - Total $X.pdf` (total de todas las obras, con puntos de miles; p. ej. `Pagos semana 27-11-26 - Total $8.000.000.pdf`).
+3. Subilo a la carpeta **ZH → ZH00 -ARQUITECTURA → Pagos de Obras** (`carpeta_pdf_unico` en `config/obras.json`), sin duplicar nombres.
+4. Si después cambia un pago de esa semana: regenerá la boleta individual (paso 7), rearmá el PDF único con el total nuevo, subilo y mandá el anterior a la papelera.
+5. Respondé con el link y recordale cómo mandarlo desde el celular: app de Drive → ⋮ → Enviar una copia → WhatsApp → Tato, con el mensaje "Hola Tato, ahi van los pagos de esta semana". No hay conector de WhatsApp: el envío lo hace el usuario.
+
 ## 7. Forma de trabajo: a pedido, sin fecha fija
 
-El usuario paga los miércoles a la tarde. Entre el lunes y el jueves pasa los pagos (dictados o cargados por él en Datos Pagos) cuando los tiene. Cada vez que lo hace, en el momento: cargá lo dictado (paso 1), generá o completá la planilla semanal y su PDF (paso 2) y los recibos (paso 3) de esa semana, y actualizá la central (paso 6). No hay tarea programada.
+El usuario paga los miércoles a la tarde. Entre el lunes y el jueves pasa los pagos (dictados o cargados por él en Datos Pagos) cuando los tiene. Cada vez que lo hace, en el momento: cargá lo dictado (paso 1), generá o completá la planilla semanal y su PDF (paso 2) y los recibos (paso 3) de esa semana, actualizá la central (paso 6) y armá o rearmá el PDF único de la semana (paso 6b). No hay tarea programada.
 
 Si llegan pagos nuevos de una semana que ya tiene bloque y PDF: agregá las filas al bloque, corregí el total, regenerá el PDF y, como el nombre cambia por el monto, mandá el PDF viejo a la papelera (no borrar definitivo) y subí el nuevo. Los recibos de un M.O. cuyo monto cambió se regeneran igual. Si el usuario corrige un pago ya procesado (p. ej. cambia el M.O.), corregilo en Datos Pagos, en el bloque semanal y en la central, regenerá el PDF y mandá a la papelera los recibos que ya no correspondan.
 
@@ -96,4 +106,4 @@ Si llegan pagos nuevos de una semana que ya tiene bloque y PDF: agregá las fila
 
 ## Resumen al terminar
 
-Por obra, pocas líneas: semana y total, links a la planilla semanal y a los recibos; después el total de todas las obras, meses de ICC agregados y alertas de la pestaña Alertas que sean nuevas (pagos sin fecha de pago, fechas mal cargadas, nombres que no coinciden, contratistas > 90% o con saldo negativo, recibos sin datos).
+Por obra, pocas líneas: semana y total, links a la planilla semanal y a los recibos; después el total de todas las obras con el link al PDF único de la semana, meses de ICC agregados y alertas de la pestaña Alertas que sean nuevas (pagos sin fecha de pago, fechas mal cargadas, nombres que no coinciden, contratistas > 90% o con saldo negativo, recibos sin datos).
